@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { EventFlags, determineExactEvent } from '../../../lib/events';
+import { EventFlags, determineExactEvent } from '../../../../../lib/events';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id, token, code } = req.query;
