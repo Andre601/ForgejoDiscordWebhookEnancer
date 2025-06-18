@@ -34,8 +34,8 @@ export default function Home() {
       <h1>Forgejo → Discord Webhook Generator</h1>
       <p>This is a simple site that allows you to generate a URL to have Gitea/Forgejo Webhooks filtered.</p>
       <h2>Why does this exist?</h2>
-      <p>Gitea and Forgejo currently do not offer a way to fine-tune what sub-types of webhook events you want to have sent to your discord.<br>
-      As such can it happen that you receive a webhook for an edit of an issue, pull request or release, even tho you didn't want that.<br>
+      <p>Gitea and Forgejo currently do not offer a way to fine-tune what sub-types of webhook events you want to have sent to your discord.<br/>
+      As such can it happen that you receive a webhook for an edit of an issue, pull request or release, even tho you didn't want that.<br/>
       This is where this site comes into play! It allows you to set a collection of issue types that should be forwarded, with everything else being silently ignored.</p>
       <h2>How to Use</h2>
       <ol>
