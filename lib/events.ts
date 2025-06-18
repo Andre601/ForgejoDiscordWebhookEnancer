@@ -19,7 +19,7 @@ export type EventKey = keyof typeof EventFlags;
 export const determineExactEvent = (header: string, body: any): EventKey | null => {
   if (header === 'push') return 'PUSH';
   if (header === 'release') {
-    if (body?.action === 'publish') return 'RELEASE_PUBLISH';
+    if (body?.action === 'published') return 'RELEASE_PUBLISH';
     if (body?.action === 'edit') return 'RELEASE_EDIT';
   }
   if (header === 'issues' && body?.action === 'opened') return 'ISSUE_CREATED';

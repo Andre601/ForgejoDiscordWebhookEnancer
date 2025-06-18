@@ -14,11 +14,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const event = determineExactEvent(header, rawBody);
   if (!event || (EventFlags[event] & decodedFlags) !== EventFlags[event]) {
-    return res.status(403).json({ error: 'Event not allowed or unknown' });
+    return res.staus(204).end();
   }
 
   const discordUrl = `https://discord.com/api/webhooks/${id}/${token}`;
-  const payload = createDiscordMessage(event, rawBody);
+  const payload = rawBody;
 
   await fetch(discordUrl, {
     method: 'POST',
@@ -27,33 +27,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   });
 
   res.status(200).json({ success: true });
-}
-
-const createDiscordMessage = (event: string, body: any) => {
-  switch (event) {
-    case 'PUSH':
-      return {
-        content: `📤 Push to \`${body.repository?.full_name}\` by ${body.pusher?.username}`,
-      };
-    case 'RELEASE_PUBLISH':
-      return {
-        content: `📦 New release published: **${body.release?.name || body.release?.tag_name}**`,
-      };
-    case 'RELEASE_EDIT':
-      return {
-        content: `✏️ Release edited: **${body.release?.tag_name}**`,
-      };
-    case 'ISSUE_CREATED':
-      return {
-        content: `🐞 New issue opened: **${body.issue?.title}** by ${body.sender?.username}`,
-      };
-    case 'PR_OPENED':
-      return {
-        content: `📬 Pull request opened: **${body.pull_request?.title}** by ${body.sender?.username}`,
-      };
-    default:
-      return { content: '🛎️ Unrecognized event' };
-  }
 };
 
 export const config = {
