@@ -8,13 +8,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'Missing parameters' });
   }
 
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return res.status(405).json({ error: 'Method Not Allowed!' });
+  }
+
   const rawBody = req.body;
   const header = req.headers['x-gitea-event'] as string;
   const decodedFlags = parseInt(code, 36); // decode base36
 
   const event = determineExactEvent(header, rawBody);
   if (!event || (EventFlags[event] & decodedFlags) !== EventFlags[event]) {
-    return res.staus(204).end();
+    return res.status(204).end();
   }
 
   const discordUrl = `https://discord.com/api/webhooks/${id}/${token}`;
@@ -26,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     body: JSON.stringify(payload),
   });
 
-  res.status(200).json({ success: true });
+  res.status(204).end();
 };
 
 export const config = {
