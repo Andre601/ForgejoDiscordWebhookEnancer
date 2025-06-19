@@ -42,6 +42,7 @@ const payloadCreator = (event: string, body: any) => {
   switch (event) {
     case 'PUSH':
       return {
+        username: 'Forgejo',
         embeds: {
           title: `[${body.repository?.full_name}:${body.ref}] ${body.commits?.size()} new commits`,
           color: 1754624,
@@ -49,6 +50,7 @@ const payloadCreator = (event: string, body: any) => {
       }
     case 'RELEASE_PUBLISH':
       return {
+        username: 'Forgejo',
         embeds: {
           title: `[${body.repository?.full_name}] Release created: ${body.release?.name}`,
           description: `${body.release?.body}`,
@@ -63,6 +65,7 @@ const payloadCreator = (event: string, body: any) => {
       }
     case 'RELEASE_EDIT':
       return {
+        username: 'Forgejo',
         embeds: {
           title: `[${body.repository?.full_name}] Release updated: ${body.release?.name}`,
           description: `${body.release?.body}`,
@@ -77,6 +80,7 @@ const payloadCreator = (event: string, body: any) => {
       }
     case 'RELEASE_DELETE':
       return {
+        username: 'Forgejo',
         embeds: {
           title: `[${body.repository?.full_name}] Release deleted: ${body.release?.name}`,
           description: `${body.release?.body}`,
@@ -91,6 +95,7 @@ const payloadCreator = (event: string, body: any) => {
       }
     case 'ISSUE_CREATE':
       return {
+        username: 'Forgejo',
         embeds: {
           title: `[${body.repository?.full_name}] Issue opened: #${body.number} ${body.issue?.title}`,
           description: `${body.issue?.body}`,
@@ -105,6 +110,7 @@ const payloadCreator = (event: string, body: any) => {
       }
     case 'ISSUE_EDIT':
       return {
+        username: 'Forgejo',
         embeds: {
           title: `[${body.repository?.full_name}] Issue edited: #${body.number} ${body.issue?.title}`,
           description: `${body.issue?.body}`,
@@ -119,6 +125,7 @@ const payloadCreator = (event: string, body: any) => {
       }
     case 'ISSUE_CLOSE':
       return {
+        username: 'Forgejo',
         embeds: {
           title: `[${body.repository?.full_name}] Issue closed: #${body.number} ${body.issue?.title}`,
           description: `${body.issue?.body}`,
