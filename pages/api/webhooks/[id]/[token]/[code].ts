@@ -113,7 +113,7 @@ const payloadCreator = (event: string, body: any) => {
           }
         }
       }
-    case 'ISSUE_EDIT':
+    case 'ISSUE_CLOSE':
       return {
         embeds: {
           title: `[${body.repository?.full_name}] Issue closed: #${body.number} ${body.issue?.title}`,
