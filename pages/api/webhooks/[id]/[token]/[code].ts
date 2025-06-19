@@ -29,9 +29,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
+  }).then(response => {
+    if (!response.ok) {
+      res.status(response.status).json({ error: 'Failed POST request towards Discord!' });
+    } else {
+      res.status(204).end();
+    }
   });
-
-  res.status(204).end();
 };
 
 const payloadCreator = (event: string, body: any) => {
