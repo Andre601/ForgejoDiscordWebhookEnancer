@@ -13,6 +13,21 @@ export const EventFlags = {
   PR_CREATE: 1 << 7,
 };
 
+export const EventLabels: Record<keyof typeof EventFlags, string> = {
+  // Pushes
+  PUSH: 'Push Events',
+  // Releases
+  RELEASE_PUBLISH: 'Release Published',
+  RELEASE_EDIT: 'Release Edited',
+  RELEASE_DELETE: 'Release Deleted',
+  // Issues
+  ISSUE_CREATE: 'Issue Created',
+  ISSUE_EDIT: 'Issue Edited',
+  ISSUE_CLOSE: 'Issue Closed',
+  // Pull requests
+  PR_CREATE: 'Pull Request Created',
+};
+
 export type EventKey = keyof typeof EventFlags;
 
 export const determineExactEvent = (header: string, body: any): EventKey | null => {
