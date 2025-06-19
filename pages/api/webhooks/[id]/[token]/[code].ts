@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const discordUrl = `https://discord.com/api/webhooks/${id}/${token}`;
-  const payload = rawBody;
+  const payload = payloadCreator(event, rawBody);
 
   await fetch(discordUrl, {
     method: 'POST',
