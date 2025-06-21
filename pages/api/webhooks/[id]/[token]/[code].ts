@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'Method Not Allowed!' });
+    return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
   const rawBody = req.body;
@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     body: JSON.stringify(payload),
   }).then(response => {
     if (!response.ok) {
-      res.status(response.status).json({ error: 'Failed POST request towards Discord!' });
+      res.status(response.status).json({ error: `Failed POST request towards Discord. Received ${response.status}.` });
     } else {
       console.log(JSON.stringify(payload))
       res.status(204).end();
@@ -42,18 +42,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 const payloadCreator = (event: string, body: any) => {
   switch (event) {
     case 'PUSH':
+      const ref = body.ref.substring(11);
+      const commitText = body.total_commits > 1 ? `${body.total_commits} new commits` : '1 new commit';
+      let commitList: string = "";
+      for(var commit of body.commits) {
+        var temp = commitTextCreator(commit);
+        if (commitList.length + temp.length + 2 > 4000)
+          break;
+
+        commitList = commitList + '\n' + temp;
+      }
       return {
-        username: 'Forgejo',
         embeds: [
           {
-            title: `[${body.repository?.full_name}:${body.ref}] new commits`,
+            title: `[${body.repository?.full_name}:${ref}] ${commitText}`,
+            description: `${commitList}`,
             color: 1754624,
+            url: `${body.compare_url}`
           }
         ]
       };
     case 'RELEASE_PUBLISH':
       return {
-        username: 'Forgejo',
         embeds: [
           {
             title: `[${body.repository?.full_name}] Release created: ${body.release?.name}`,
@@ -70,7 +80,6 @@ const payloadCreator = (event: string, body: any) => {
       };
     case 'RELEASE_EDIT':
       return {
-        username: 'Forgejo',
         embeds: [
           {
             title: `[${body.repository?.full_name}] Release updated: ${body.release?.name}`,
@@ -87,7 +96,6 @@ const payloadCreator = (event: string, body: any) => {
       };
     case 'RELEASE_DELETE':
       return {
-        username: 'Forgejo',
         embeds: [
           {
             title: `[${body.repository?.full_name}] Release deleted: ${body.release?.name}`,
@@ -104,7 +112,6 @@ const payloadCreator = (event: string, body: any) => {
       };
     case 'ISSUE_CREATE':
       return {
-        username: 'Forgejo',
         embeds: [
           {
             title: `[${body.repository?.full_name}] Issue opened: #${body.number} ${body.issue?.title}`,
@@ -121,7 +128,6 @@ const payloadCreator = (event: string, body: any) => {
       };
     case 'ISSUE_EDIT':
       return {
-        username: 'Forgejo',
         embeds: [
           {
             title: `[${body.repository?.full_name}] Issue edited: #${body.number} ${body.issue?.title}`,
@@ -138,7 +144,6 @@ const payloadCreator = (event: string, body: any) => {
       };
     case 'ISSUE_CLOSE':
       return {
-        username: 'Forgejo',
         embeds: [
           {
             title: `[${body.repository?.full_name}] Issue closed: #${body.number} ${body.issue?.title}`,
@@ -155,6 +160,13 @@ const payloadCreator = (event: string, body: any) => {
       };
   }
 };
+
+const commitTextCreator = (commit: any): string => {
+  const hash = commit.id.substring(0, 7);
+  const message = commit.message.length() > 44 ? commit.message.substring(0, 44) + '...' : commit.message;
+
+  return `[${hash}](${commit.url}) ${message} - ${commit.author?.name}`
+}
 
 export const config = {
   api: {
