@@ -43,100 +43,114 @@ const payloadCreator = (event: string, body: any) => {
     case 'PUSH':
       return {
         username: 'Forgejo',
-        embeds: {
-          title: `[${body.repository?.full_name}:${body.ref}] ${body.commits?.size()} new commits`,
-          color: 1754624,
-        }
+        embeds: [
+          {
+            title: `[${body.repository?.full_name}:${body.ref}] new commits`,
+            color: 1754624,
+          }
+        ]
       }
     case 'RELEASE_PUBLISH':
       return {
         username: 'Forgejo',
-        embeds: {
-          title: `[${body.repository?.full_name}] Release created: ${body.release?.name}`,
-          description: `${body.release?.body}`,
-          url: `${body.release?.html_url}`,
-          color: 1754624,
-          author: {
-            name: `${body.release?.author?.login}`,
-            url: `${body.release?.author?.html_url}`,
-            icon_url: `${body.release?.author?.avatar_url}`
+        embeds: [
+          {
+            title: `[${body.repository?.full_name}] Release created: ${body.release?.name}`,
+            description: `${body.release?.body}`,
+            url: `${body.release?.html_url}`,
+            color: 1754624,
+            author: {
+              name: `${body.release?.author?.login}`,
+              url: `${body.release?.author?.html_url}`,
+              icon_url: `${body.release?.author?.avatar_url}`
+            }
           }
-        }
+        ]
       }
     case 'RELEASE_EDIT':
       return {
         username: 'Forgejo',
-        embeds: {
-          title: `[${body.repository?.full_name}] Release updated: ${body.release?.name}`,
-          description: `${body.release?.body}`,
-          url: `${body.release?.html_url}`,
-          color: 16767280,
-          author: {
-            name: `${body.release?.author?.login}`,
-            url: `${body.release?.author?.html_url}`,
-            icon_url: `${body.release?.author?.avatar_url}`
+        embeds: [
+          {
+            title: `[${body.repository?.full_name}] Release updated: ${body.release?.name}`,
+            description: `${body.release?.body}`,
+            url: `${body.release?.html_url}`,
+            color: 16767280,
+            author: {
+              name: `${body.release?.author?.login}`,
+              url: `${body.release?.author?.html_url}`,
+              icon_url: `${body.release?.author?.avatar_url}`
+            }
           }
-        }
+        ]
       }
     case 'RELEASE_DELETE':
       return {
         username: 'Forgejo',
-        embeds: {
-          title: `[${body.repository?.full_name}] Release deleted: ${body.release?.name}`,
-          description: `${body.release?.body}`,
-          url: `${body.release?.html_url}`,
-          color: '16724530',
-          author: {
-            name: `${body.release?.author?.login}`,
-            url: `${body.release?.author?.html_url}`,
-            icon_url: `${body.release?.author?.avatar_url}`
+        embeds: [
+          {
+            title: `[${body.repository?.full_name}] Release deleted: ${body.release?.name}`,
+            description: `${body.release?.body}`,
+            url: `${body.release?.html_url}`,
+            color: '16724530',
+            author: {
+              name: `${body.release?.author?.login}`,
+              url: `${body.release?.author?.html_url}`,
+              icon_url: `${body.release?.author?.avatar_url}`
+            }
           }
-        }
+        ]
       }
     case 'ISSUE_CREATE':
       return {
         username: 'Forgejo',
-        embeds: {
-          title: `[${body.repository?.full_name}] Issue opened: #${body.number} ${body.issue?.title}`,
-          description: `${body.issue?.body}`,
-          url: `${body.issue?.html_url}`,
-          color: 15426592,
-          author: {
-            name: `${body.issue?.user?.login}`,
-            url: `${body.issue?.user?.html_url}`,
-            icon_url: `${body.issue?.user?.avatar_url}`
+        embeds: [
+          {
+            title: `[${body.repository?.full_name}] Issue opened: #${body.number} ${body.issue?.title}`,
+            description: `${body.issue?.body}`,
+            url: `${body.issue?.html_url}`,
+            color: 15426592,
+            author: {
+              name: `${body.issue?.user?.login}`,
+              url: `${body.issue?.user?.html_url}`,
+              icon_url: `${body.issue?.user?.avatar_url}`
+            }
           }
-        }
+        ]
       }
     case 'ISSUE_EDIT':
       return {
         username: 'Forgejo',
-        embeds: {
-          title: `[${body.repository?.full_name}] Issue edited: #${body.number} ${body.issue?.title}`,
-          description: `${body.issue?.body}`,
-          url: `${body.issue?.html_url}`,
-          color: 16767280,
-          author: {
-            name: `${body.issue?.user?.login}`,
-            url: `${body.issue?.user?.html_url}`,
-            icon_url: `${body.issue?.user?.avatar_url}`
+        embeds: [
+          {
+            title: `[${body.repository?.full_name}] Issue edited: #${body.number} ${body.issue?.title}`,
+            description: `${body.issue?.body}`,
+            url: `${body.issue?.html_url}`,
+            color: 16767280,
+            author: {
+              name: `${body.issue?.user?.login}`,
+              url: `${body.issue?.user?.html_url}`,
+              icon_url: `${body.issue?.user?.avatar_url}`
+            }
           }
-        }
+        ]
       }
     case 'ISSUE_CLOSE':
       return {
         username: 'Forgejo',
-        embeds: {
-          title: `[${body.repository?.full_name}] Issue closed: #${body.number} ${body.issue?.title}`,
-          description: `${body.issue?.body}`,
-          url: `${body.issue?.html_url}`,
-          color: 16724530,
-          author: {
-            name: `${body.issue?.user?.login}`,
-            url: `${body.issue?.user?.html_url}`,
-            icon_url: `${body.issue?.user?.avatar_url}`
+        embeds: [
+          {
+            title: `[${body.repository?.full_name}] Issue closed: #${body.number} ${body.issue?.title}`,
+            description: `${body.issue?.body}`,
+            url: `${body.issue?.html_url}`,
+            color: 16724530,
+            author: {
+              name: `${body.issue?.user?.login}`,
+              url: `${body.issue?.user?.html_url}`,
+              icon_url: `${body.issue?.user?.avatar_url}`
+            }
           }
-        }
+        ]
       }
   }
 }
