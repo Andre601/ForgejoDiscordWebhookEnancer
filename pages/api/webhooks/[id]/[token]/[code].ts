@@ -33,6 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!response.ok) {
       res.status(response.status).json({ error: 'Failed POST request towards Discord!' });
     } else {
+      console.log(JSON.stringify(payload))
       res.status(204).end();
     }
   });
@@ -49,7 +50,7 @@ const payloadCreator = (event: string, body: any) => {
             color: 1754624,
           }
         ]
-      }
+      };
     case 'RELEASE_PUBLISH':
       return {
         username: 'Forgejo',
@@ -66,7 +67,7 @@ const payloadCreator = (event: string, body: any) => {
             }
           }
         ]
-      }
+      };
     case 'RELEASE_EDIT':
       return {
         username: 'Forgejo',
@@ -83,7 +84,7 @@ const payloadCreator = (event: string, body: any) => {
             }
           }
         ]
-      }
+      };
     case 'RELEASE_DELETE':
       return {
         username: 'Forgejo',
@@ -100,7 +101,7 @@ const payloadCreator = (event: string, body: any) => {
             }
           }
         ]
-      }
+      };
     case 'ISSUE_CREATE':
       return {
         username: 'Forgejo',
@@ -117,7 +118,7 @@ const payloadCreator = (event: string, body: any) => {
             }
           }
         ]
-      }
+      };
     case 'ISSUE_EDIT':
       return {
         username: 'Forgejo',
@@ -134,7 +135,7 @@ const payloadCreator = (event: string, body: any) => {
             }
           }
         ]
-      }
+      };
     case 'ISSUE_CLOSE':
       return {
         username: 'Forgejo',
@@ -151,9 +152,9 @@ const payloadCreator = (event: string, body: any) => {
             }
           }
         ]
-      }
+      };
   }
-}
+};
 
 export const config = {
   api: {
