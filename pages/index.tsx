@@ -27,8 +27,7 @@ export default function Home() {
       const sum = selected.reduce((acc, key) => acc + EventFlags[key], 0);
       const encoded = sum.toString(36); // base36 encoding
 
-      const result = `${window.location.origin}/api/webhooks/${id}/${token}/${encoded}`;
-      setGenerated(result);
+      setGenerated(`${window.location.origin}/api/webhooks/${id}/${token}/${encoded}`);
     } catch {
       alert('Invalid Discord webhook URL');
     }
@@ -70,8 +69,13 @@ export default function Home() {
       <button onClick={generate} style={{ marginTop: '1rem' }}>Generate</button>
       {generated && (
         <p style={{ marginTop: '1rem' }}>
-          <strong>Webhook URL:</strong><br />
-          <code>{generated}</code>
+          <strong>Webhook URL:</strong>
+          <input
+            style={{ width: '100%', marginBottom: '1rem', padding: '0.5rem' }}
+            placeholder="Generated URL"
+            value={generated}
+            readonly
+          />
         </p>
       )}
     </main>
