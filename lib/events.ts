@@ -11,6 +11,8 @@ export const EventFlags = {
   ISSUE_CLOSE: 1 << 6,
   // Pull requests
   PR_CREATE: 1 << 7,
+  PR_CLOSE: 1 << 8,
+  PR_MERGE: 1 << 9,
 };
 
 export const EventLabels: Record<keyof typeof EventFlags, string> = {
@@ -21,11 +23,13 @@ export const EventLabels: Record<keyof typeof EventFlags, string> = {
   RELEASE_EDIT: 'Release Edited',
   RELEASE_DELETE: 'Release Deleted',
   // Issues
-  ISSUE_CREATE: 'Issue Created',
+  ISSUE_CREATE: 'Issue Opened',
   ISSUE_EDIT: 'Issue Edited',
   ISSUE_CLOSE: 'Issue Closed',
   // Pull requests
-  PR_CREATE: 'Pull Request Created',
+  PR_CREATE: 'Pull Request Opened',
+  PR_CLOSE: 'Pull Request Closed',
+  PR_MERGE: 'Pull Request Merged'
 };
 
 export type EventKey = keyof typeof EventFlags;
@@ -42,6 +46,10 @@ export const determineExactEvent = (header: string, body: any): EventKey | null 
     if (body?.action === 'edited') return 'ISSUE_EDIT';
     if (body?.action === 'closed') return 'ISSUE_CLOSE';
   };
-  if (header === 'pull_request' && body?.action === 'opened') return 'PR_CREATE';
+  if (header === 'pull_request') {
+    if (body?.action === 'opened') return 'PR_CREATE';
+    if (body?.action === 'closed' && body?.pull_request?.merged === false) return 'PR_CLOSE';
+    if (body?.action === 'closed' && body?.pull_request?.merged) return 'PR_MERGE';
+  }
   return null;
 };

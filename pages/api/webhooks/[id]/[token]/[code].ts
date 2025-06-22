@@ -158,6 +158,54 @@ const payloadCreator = (event: string, body: any) => {
           }
         ]
       };
+    case 'PR_CREATE':
+      return {
+        embeds: [
+          {
+            title: `[${body.repository?.full_name}] Pull request opened: #${body.number} ${body.pull_request?.title}`,
+            description: '',
+            url: `${body.pull_request?.url}`,
+            color: 1754624,
+            author: {
+              name: `${body.pull_request?.user?.login}`,
+              url: `${body.pull_request?.user?.html_url}`,
+              icon_url: `${body.pull_request?.user?.avatar_url}`
+            }
+          }
+        ]
+      }
+    case 'PR_CLOSED':
+      return {
+        embeds: [
+          {
+            title: `[${body.repository?.full_name}] Pull request closed: #${body.number} ${body.pull_request?.title}`,
+            description: '',
+            url: `${body.pull_request?.url}`,
+            color: 16724530,
+            author: {
+              name: `${body.pull_request?.user?.login}`,
+              url: `${body.pull_request?.user?.html_url}`,
+              icon_url: `${body.pull_request?.user?.avatar_url}`
+            }
+          }
+        ]
+      }
+    case 'PR_MERGED':
+      return {
+        embeds: [
+          {
+            title: `[${body.repository?.full_name}] Pull request merged: #${body.number} ${body.pull_request?.title}`,
+            description: '',
+            url: `${body.pull_request?.url}`,
+            color: 7506394,
+            author: {
+              name: `${body.pull_request?.user?.login}`,
+              url: `${body.pull_request?.user?.html_url}`,
+              icon_url: `${body.pull_request?.user?.avatar_url}`
+            }
+          }
+        ]
+      }
   }
 };
 
