@@ -1,25 +1,28 @@
-# Forgejo Discord Webhook Enhancer
+# Forgejo → Discord Webhook Filter
 
-This repository houses the source of the Forgejo Discord Webhook Enhancer.
+This repository hosts the source of the `Forgejo → Discord` filter available at [forgejo-discord-webhook-enancer.vercel.app/](https://forgejo-discord-webhook-enancer.vercel.app/).
 
-## What is that?
+## What is this?
 
-It's a site that allows you to filter out unwanted Event sub-types such as issue edits, release edits, etc. by simply selecting the events you want.
+This site serves a specific purpose: Only send Embeds to Discord if their event type (and action) match ones you've selected.  
+Should a webhook POST request be received with an event type or action value that does not match the values defined in the URL, will the site not forward any webhook to discord and instead silently ignore it with a `204` response.
 
-## Why does it exist?
+## Why does this exist?
 
-The Discord Webhook feature of Forgejo is nice for a quick and simple `Repository -> Discord Channel` bridge to show new commits, opened issues, etc.
+Forgejo does not have any way to define only specific actions of an event to be forwarded to Discord.  
+As an example, if you select `issues` will Forgejo send Webhook requests for issues that have been opened, closed, but also edited. This can create a lot of noice in one's Discord Channel, depending on how frequent such events would happen.
 
-One big issue with it however, is that you may receive webhook messages for events you don't want to show. A good example are issues. Selecting the `issues` event for webhook triggers will send webhooks for when an issue is opened or closed, but also for when it gets edited.  
-Unfortunately does Forgejo not yet have any way to select only specific types of an event. And they lack the required manpower to implement this.
+For more details check [`forgejo/forgejo#3288` on Codeberg.org](https://codeberg.org/forgejo/forgejo/issues/3288).
 
-This is where this Site comes into play!  
-The site will do the job of filtering out event types you don't want in your Discord Channel to show.
+## How does this work?
 
-## How does it work?
+On the Site can you paste in a Discord Webhook URL, select the events you want forwarded and then generate a URL. This URL will contain the ID and Token of the Webhook, as well as a Base36-encoded Bitmask containing the individual events you selected.  
+This URL would now be used in your Forgejo Repository as a Webhook target URL (Make sure that you use a Forgejo Webhook, not Discord!) to forward POST requests.
 
-On the site itself do you provide the URL of the Discord Webhook, select the event types you want to receive webhook messages for and then generate the URL.  
-The URL itself is similar in structure to the Discord webhook one (In fact it has the same `api/webhooks/<id>/<token>` structure), but differs in that it also has a `/<number>` added at the end. This number holds the individual events that should be allowed through.
+Whenever the site now receives a request will it check the URL for the values (ID, Token and encoded Bitmask), extract them and process the request accordingly.
 
-By now pasting this URL in the Webhook settings of your repository, will any request be send through the site, which filters out the events you didn't include and forward the rest towards Discord.  
-Any filtered out event will simply return a `204` response to avoid displaying any errors in the webhook history on your repository.
+## Current Limitations
+
+- Only the events listed on the site are actually supported. Any additional events wanted need to be manually added (Contributions welcome!).
+- The JSON for the Webhook requests need to be manually created. The site can't work with, nor use the JSON Forgejo would send for a Discord webhook.
+- There is currently no way of defining a Webhook avatar and Username. You need to set those in your Discord server directly.
