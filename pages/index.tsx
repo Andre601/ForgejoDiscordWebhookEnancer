@@ -74,7 +74,7 @@ export default function Home() {
             style={{ width: '100%', marginBottom: '1rem', padding: '0.5rem' }}
             placeholder="Generated URL"
             value={generated}
-            readonly
+            readOnly
           />
         </p>
       )}
