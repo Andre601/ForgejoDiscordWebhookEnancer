@@ -17,19 +17,19 @@ export const EventFlags = {
 
 export const EventLabels: Record<keyof typeof EventFlags, string> = {
   // Pushes
-  PUSH: 'Push Events',
+  PUSH: 'Commit Push',
   // Releases
   RELEASE_PUBLISH: 'Release Published',
-  RELEASE_EDIT: 'Release Edited',
-  RELEASE_DELETE: 'Release Deleted',
+  RELEASE_EDIT:    'Release Edited',
+  RELEASE_DELETE:  'Release Deleted',
   // Issues
   ISSUE_CREATE: 'Issue Opened',
-  ISSUE_EDIT: 'Issue Edited',
-  ISSUE_CLOSE: 'Issue Closed',
+  ISSUE_EDIT:   'Issue Edited',
+  ISSUE_CLOSE:  'Issue Closed',
   // Pull requests
   PR_CREATE: 'Pull Request Opened',
-  PR_CLOSE: 'Pull Request Closed',
-  PR_MERGE: 'Pull Request Merged'
+  PR_CLOSE:  'Pull Request Closed',
+  PR_MERGE:  'Pull Request Merged'
 };
 
 export type EventKey = keyof typeof EventFlags;

@@ -57,8 +57,13 @@ const payloadCreator = (event: string, body: any) => {
           {
             title: `[${body.repository?.full_name}:${ref}] ${commitText}`,
             description: `${commitList}`,
+            url: `${body.compare_url}`,
             color: 1754624,
-            url: `${body.compare_url}`
+            author: {
+              name: `${body.pusher?.login}`,
+              url: `${body.pusher?.html_url}`,
+              icon_url: `${body.pusher?.avatar_url}`
+            }
           }
         ]
       };

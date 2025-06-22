@@ -14,10 +14,15 @@ export default function Home() {
 
   const generate = () => {
     try {
-      const url = new URL(webhook);
-      const parts = url.pathname.split('/');
-      const id = parts[3];
-      const token = parts[4];
+      const discordWebhookRegex = /http:\/\/(?:(?:ptb|canary)\.)?discord\.com\/api\/webhooks\/(\d+)\/([a-zA-Z0-9_-]+)(?:\/(?:.+)?)?/;
+      const matches = webhook.match(discordWebhookRegex);
+      if (matches === null) {
+        setGenerated(`ERR: Invalid Webhook URL '${webhook}'!`);
+        return;
+      }
+
+      const id = matches[1];
+      const token = matches[2];
 
       const sum = selected.reduce((acc, key) => acc + EventFlags[key], 0);
       const encoded = sum.toString(36); // base36 encoding
