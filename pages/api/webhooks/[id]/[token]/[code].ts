@@ -211,7 +211,7 @@ const payloadCreator = (event: string, body: any) => {
 
 const commitTextCreator = (commit: any): string => {
   const hash = commit.id.substring(0, 7);
-  const message = commit.message.length() > 44 ? commit.message.substring(0, 44) + '...' : commit.message;
+  const message = commit.message.length > 44 ? commit.message.substring(0, 44) + '...' : commit.message;
 
   return `[${hash}](${commit.url}) ${message} - ${commit.author?.name}`
 }
