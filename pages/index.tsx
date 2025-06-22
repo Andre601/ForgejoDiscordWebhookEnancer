@@ -14,7 +14,7 @@ export default function Home() {
 
   const generate = () => {
     try {
-      const discordWebhookRegex = /http:\/\/(?:(?:ptb|canary)\.)?discord\.com\/api\/webhooks\/(\d+)\/([a-zA-Z0-9_-]+)(?:\/(?:.+)?)?/;
+      const discordWebhookRegex = /https:\/\/(?:(?:ptb|canary)\.)?discord\.com\/api\/webhooks\/(\d+)\/([a-zA-Z0-9_-]+)(?:\/(?:.+)?)?/;
       const matches = webhook.match(discordWebhookRegex);
       if (matches === null) {
         setGenerated(`ERR: Invalid Webhook URL '${webhook}'!`);
