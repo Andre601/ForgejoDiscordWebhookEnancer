@@ -50,11 +50,11 @@ export const determineExactEvent = (header: string, body: any): EventKey | null 
     case 'issues':
       switch (body?.action) {
         case 'opened':
-          return: 'ISSUE_CREATE';
+          return 'ISSUE_CREATE';
         case 'edited':
-          return: 'ISSUE_EDIT';
+          return 'ISSUE_EDIT';
         case 'closed':
-          return: 'ISSUE_CLOSE';
+          return 'ISSUE_CLOSE';
       }
     case 'pull_request':
       if (body?.action === 'opened')
