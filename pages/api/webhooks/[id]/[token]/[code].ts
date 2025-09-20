@@ -5,12 +5,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { id, token, code } = req.query;
 
   if (!id || !token || !code || typeof code !== 'string') {
-    return res.status(400).json({ error: 'Missing parameters' });
+    return res.status(400).json({
+      error: 'Missing parameters',
+      message: 'The request URL requires the webhook ID, token and an encoded event ID in the format /<id>/<token>/<events>'
+    });
   }
 
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'Method Not Allowed' });
+    return res.status(405).json({
+      error: 'Method Not Allowed',
+      message: 'Only POST type requests are supported!'
+    });
   }
 
   const rawBody = req.body;
@@ -31,9 +37,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     body: JSON.stringify(payload),
   }).then(response => {
     if (!response.ok) {
-      res.status(response.status).json({ error: `Failed POST request towards Discord. Received ${response.status}.` });
+      res.status(response.status).json({
+        error: 'Failed POST request towards Discord.',
+        message: `Received a ${response.status} response from Discord.`
+      });
     } else {
-      console.log(JSON.stringify(payload))
       res.status(204).end();
     }
   });
