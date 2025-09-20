@@ -35,21 +35,37 @@ export const EventLabels: Record<keyof typeof EventFlags, string> = {
 export type EventKey = keyof typeof EventFlags;
 
 export const determineExactEvent = (header: string, body: any): EventKey | null => {
-  if (header === 'push') return 'PUSH';
-  if (header === 'release') {
-    if (body?.action === 'published') return 'RELEASE_PUBLISH';
-    if (body?.action === 'updated') return 'RELEASE_EDIT';
-    if (body?.action === 'deleted') return 'RELEASE_DELETE';
-  };
-  if (header === 'issues') {
-    if (body?.action === 'opened') return 'ISSUE_CREATE';
-    if (body?.action === 'edited') return 'ISSUE_EDIT';
-    if (body?.action === 'closed') return 'ISSUE_CLOSE';
-  };
-  if (header === 'pull_request') {
-    if (body?.action === 'opened') return 'PR_CREATE';
-    if (body?.action === 'closed' && body?.pull_request?.merged === false) return 'PR_CLOSE';
-    if (body?.action === 'closed' && body?.pull_request?.merged) return 'PR_MERGE';
+  switch (header) {
+    case 'push':
+      return 'PUSH';
+    case 'release':
+      switch (body?.action) {
+        case 'published':
+          return 'RELEASE_PUBLISH';
+        case 'updated':
+          return 'RELEASE_EDIT';
+        case 'deleted':
+          return 'RELEASE_DELETE';
+      }
+    case 'issues':
+      switch (body?.action) {
+        case 'opened':
+          return: 'ISSUE_CREATE';
+        case 'edited':
+          return: 'ISSUE_EDIT';
+        case 'closed':
+          return: 'ISSUE_CLOSE';
+      }
+    case 'pull_request':
+      if (body?.action === 'opened')
+        return 'PR_CREATE';
+      if (body?.action === 'closed') {
+        if (body?.pull_request?.merged) {
+          return 'PR_MERGE';
+        } else {
+          return 'PR_CLOSE';
+        }
+      }
   }
   return null;
 };
